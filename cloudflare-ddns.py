@@ -2,8 +2,8 @@ import requests, json, sys, signal, os, time, threading
 
 PATH = os.getcwd() + "/"
 version = float(str(sys.version_info[0]) + "." + str(sys.version_info[1]))
-shown_ipv4_warning = False
-shown_ipv6_warning = False
+shown_ipv4_warning = True
+shown_ipv6_warning = True
 
 if(version < 3.5):
     raise Exception("This script requires Python 3.5+")
@@ -149,6 +149,7 @@ def cf_api(endpoint, method, config, headers={}, data=False):
         response = requests.request(
             method, "https://api.cloudflare.com/client/v4/" + endpoint, headers=headers, json=data)
 
+    response.raise_for_status()
     return response.json()
 
 def updateIPs(ips):
